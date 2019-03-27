@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block header_text %}{{year}} Leaderboard{% endblock %}
+
+{% block side_block %}
+    {{ side_block_content|safe }}
+{% endblock %}
+
+{% block body_header_block %}
+    <div id="page-title">{{year}} Leaderboard</div>
+    {% include "pick10/week_navbar.html" %}
+    <br>
+{% endblock %}
+
+{% block body_block %}
+    {{ body_content|safe }}
+    <br><br>
+{% endblock %}
+
+{% block script_block %}
+    <script>
+        $(document).ready(function() {
+                $("#overall_results_table").tablesorter();
+            }
+        );
+    </script>
+    <script>
+        var player_id = {{player_id}};
+        $(document).ready(function() {
+            highlight_player_row(player_id);
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block header_other_jq_scripts %}
+    <link href="{% static 'jqplot/css/jquery.jqplot.min.css' %}" rel="stylesheet" media="screen">
+    <script src="{% static 'jqplot/js/jquery.jqplot.min.js' %}"></script>
+    <script src="{% static 'jqplot/plugins/jqplot.canvasTextRenderer.min.js' %}"></script>
+    <script src="{% static 'jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js' %}"></script>
+    <script src="{% static 'jqplot/plugins/jqplot.trendline.min.js' %}"></script>
+{% endblock %}
+
+{% block body_block %}
+{% if year_num > 0 %}
+<ul>
+    <li><a href="{% url 'overall_results' year_num %}">{{year_num}} Season Results</a></li>
+    {% if last_inprogress_week_num %}
+    <li><a href="{% url 'week_results' year_num last_inprogress_week_num %}">Week {{last_inprogress_week_num}} Results</a></li>
+    {% else %}
+    <li><a href="{% url 'week_results' year_num last_completed_week_num %}">Week {{last_completed_week_num}} Results</a></li>
+    {% endif %}
+    {% if profile == None %}
+    <li><a href="{% url 'profile' %}">Create/Edit Profile</a></li>
+    {% elif profile.player == None %}
+    <li>...Waiting for Commissioner to create Player link...</li>
+    {% else %}
+    {% if last_inprogress_week_num %}
+    <li><a href="{% url 'player_results' year_num last_inprogress_week_num profile.player.id %}">Week {{last_inprogress_week_num}} Player Pick Results</a></li>
+    {% else %}
+    <li><a href="{% url 'player_results' year_num last_completed_week_num profile.player.id %}">Week {{last_completed_week_num}} Player Pick Results</a></li>
+    {% endif %}
+    {% if week_num > last_inprogress_week_num and last_completed_week_num < 13 %}
+    <li><a href="{% url 'enter_picks' year_num week_num profile.player.id %}">Week {{week_num}} Enter/Modify Picks</a></li>
+    {% else %}
+    <li>Week {{week_num}} Enter/Modify Picks (disabled)</li>
+    {% endif %}
+    {% endif %}
+</ul>
+{% else %}
+<p id="index_p">Pool has not been initialized with data.</p>
+{% endif %}
+{% if profile.player != None and week_num > 1 %}
+<div id="chartdiv" style="height:400px;width=300px; "></div>
+<div id="formdiv">
+    <form id="index_form" action="{% url 'index' %}" method="post">
+        {% csrf_token %}
+        <table>
+        {{ form }}
+        </table>
+        <input type="submit" value="Submit" />
+    </form>
+</div>
+<div id="charttab">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Player</th>
+                {% for wk in week_range %}
+                <th>Wk{{wk}}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="color:{{player_color}}">{{player_name}}</td>
+                {% for ou in player_over_under_list %}
+                <td>{{ou}}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td style="color:{{compare_color}}">{{compare_name}}</td>
+                {% for ou in compare_over_under_list %}
+                <td>{{ou}}</td>
+                {% endfor %}
+            </tr>
+        </tbody>
+    </table>
+</div>
+<script class="code" type="text/javascript">
+    $(document).ready(function() {
+        $.jqplot.config.enablePlugins = true;
+        var ou1 = [0].concat({{player_over_under_list}});
+        var ou2 = [0].concat({{compare_over_under_list}});
+        var i, dp;
+        var line1 = [];
+        var line2 = [];
+        var ticks = [];
+        for (i=0; i<ou1.length; i++){
+            dp = [i, ou1[i]];
+            line1.push(dp);
+            dp = [i, ou2[i]];
+            line2.push(dp);
+        }
+        for (i=-1; i<=ou1.length; i++){
+            ticks.push(i);
+        }
+        var optionObj = {
+            title:{text:"Trend Line {{year_num}} - {{player_name}}"},
+            grid:{shadow:false, borderWidth:9.0},
+            axes:{
+                xaxis:{
+                    ticks: ticks,
+                    tickInterval: 1.0,
+                    label: 'Week Number'
+                },
+                yaxis:{
+                    labelRenderer: $.jqplot.CanvasAxisLabelRenderer,
+                    label: 'Points - Over/Under'
+                }
+            },
+            series:[{
+                color: '{{player_color}}',
+                rendererOptions: {smooth: true},
+                trendline: {color: '{{player_color}}'},
+            },
+            {
+                color: '{{compare_color}}',
+                rendererOptions: {smooth: true},
+                trendline: {color: '{{compare_color}}'},
+            }]
+        };
+        var plot1 = $.jqplot ('chartdiv', [line1, line2], optionObj);
+    });
+</script>
+{% endif %}
+{% endblock %}

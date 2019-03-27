@@ -1,0 +1,168 @@
+.results-header {
+   color: #E6E6FF;
+   background-color: #0000E6;
+   font-size: 8pt;
+   padding: 0px 4px;
+   font-family: Helvetica;
+   font-weight: 100;
+}
+
+.th_header {
+   text-align: center;
+   padding: 1px 4px;
+   white-space: nowrap;
+}
+
+.p_content {
+   color: black;
+   background-color: white;
+   border-bottom: 1px solid lightgray;
+   font-size: 10pt;
+   padding: 0px 4px;
+   font-family: Helvetica;
+   font-weight: 100;
+   white-space: nowrap;
+   text-align: center;
+}
+
+.player-content {
+   color: black;
+   background-color: lightyellow;
+   border-bottom: 1px solid lightgray;
+   font-size: 10pt;
+   padding: 0px 4px;
+   font-family: Helvetica;
+   font-weight: 100;
+   white-space: nowrap;
+   text-align: left;
+   width : 15em;
+}
+
+#final-pool-state {
+   color: black;
+   background-color: white;
+   font-size: 10pt;
+   font-family: Helvetica;
+   font-weight: 500;
+   white-space: nowrap;
+   text-align: left;
+   padding: 0px 4px;
+}
+
+.highlight-content {
+   color: black;
+   background-color: lightgray;
+   border-bottom: 1px solid lightgray;
+   font-size: 10pt;
+   padding: 0px 4px;
+   font-family: Helvetica;
+   font-weight: 100;
+   white-space: nowrap;
+   text-align: center;
+}
+
+a.link-header {
+   text-align: center;
+   padding: 1px 4px;
+   color: #E6E6FF;
+   background-color: #0000E6;
+   font-size: 8pt;
+   padding: 0px 4px;
+   font-family: Helvetica;
+   font-weight: 100;
+}
+
+.table-line {
+   width: 100%;
+   border-bottom: 1px solid lightgray;
+   padding: 0 0 0 0;
+}
+
+.week-link {
+   color: black;
+   background-color: white;
+   font-size: 10pt;
+   padding: 0px 4px;
+   font-family: Helvetica;
+   font-weight: 100;
+   white-space: nowrap;
+   text-align: center;
+}
+
+#enterpicks-pool-state {
+   color: gray;
+   background-color: white;
+   font-size: 10pt;
+   font-family: Helvetica;
+   font-weight: 100;
+   white-space: nowrap;
+   text-align: left;
+   padding: 2px 4px;
+}
+#weeknotstarted-pool-state {
+   color: gray;
+   background-color: white;
+   font-size: 10pt;
+   font-family: Helvetica;
+   font-weight: 100;
+   white-space: nowrap;
+   text-align: left;
+   padding: 2px 4px;
+}
+#weekinprogress-pool-state {
+   color: gray;
+   background-color: white;
+   font-size: 10pt;
+   font-family: Helvetica;
+   font-weight: 100;
+   white-space: nowrap;
+   text-align: left;
+   padding: 2px 4px;
+}
+#weekfinal-pool-state {
+   color: black;
+   background-color: white;
+   font-size: 10pt;
+   font-family: Helvetica;
+   font-weight: 100;
+   white-space: nowrap;
+   text-align: left;
+   padding: 2px 4px;
+}
+
+#page-title {
+   color: gray;
+   font-size: 14pt;
+   font-family: Helvetica;
+   font-weight: 500;
+   text-align: left;
+   white-space: nowrap;
+   padding: 0px 4px;
+}
+
+.week-winner {
+   color: white;
+   background-color: darkgreen;
+   padding-left: 3pt;
+   padding-right: 3pt;
+   padding-top: 1pt;
+}
+
+table.tablesorter thead tr .header span {
+    background-image: url(images/bg_y.png);
+    background-repeat: no-repeat;
+    background-position: center right;
+    padding-right: 15px;
+    cursor: pointer;
+}
+
+table.tablesorter thead tr .headerSortUp span {
+    background-image: url(images/asc_y.png);
+    padding-right: 15px;
+}
+
+table.tablesorter thead tr .headerSortDown span {
+    background-image: url(images/desc_y.png);
+    padding-right: 15px;
+}
+

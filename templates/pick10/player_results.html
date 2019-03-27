@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% block header_text %}Week {{week_number}} Player {{summary.player_name}} Results{% endblock %}
+
+{% block side_block %}
+    {{ side_block_content|safe }}
+{% endblock %}
+
+{% block body_header_block %}
+    <div id="page-title">{{summary.player_name}} Week {{week_number}} Results</div>
+    {% include "pick10/week_navbar.html" %}
+    <br>
+{% endblock %}
+
+{% block body_block %}
+<link href="/static/title_bar.css" rel="stylesheet" type="text/css" media="all">
+<link href="/static/player_results_1.css" rel="stylesheet" type="text/css" media="all">
+<br>
+    {% if summary.week_state == FINAL %}
+        <table>
+            <tr>
+                <td class="table-line" colspan="6"></td>
+            </tr>
+            <tr class="summary-content">
+                <td class="summary-label">Wins</td>
+                <td class="summary-value">{{summary.wins}}</td>
+                <td class="summary-label">Losses</td>
+                <td class="summary-value">{{summary.losses}}</td>
+                <td class="summary-label">Win Pct</td>
+                <td class="summary-value">{{summary.win_pct}}</td>
+            </tr>
+            <tr>
+                <td class="table-line" colspan="6"></td>
+            </tr>
+        </table>
+    {% else %}
+        <table>
+            <tr>
+                <td class="table-line" colspan="10"></td>
+            </tr>
+            <tr class="summary-content">
+                <td class="summary-label">Wins</td>
+                <td class="summary-value">{{summary.wins}}</td>
+                <td class="summary-label">Losses</td>
+                <td class="summary-value">{{summary.losses}}</td>
+                <td class="summary-label">Win Pct</td>
+                <td class="summary-value">{{summary.win_pct}}</td>
+                <td class="summary-label">Projected Wins</td>
+                <td class="summary-value">{{summary.projected_wins}}</td>
+                <td class="summary-label">Possible Wins</td>
+                <td class="summary-value">{{summary.possible_wins}}</td>
+            </tr>
+            <tr>
+                <td class="table-line" colspan="10"></td>
+            </tr>
+        </table>
+    {% endif %}
+    <br>
+    <table>
+        <thead class="results-header">
+            <tr>
+                <th class="pick-header">Player Pick</th>
+                <th class="result-header">Result</th>
+                <th class="game-header">Game</th>
+                <th class="spread-header">Spread</th>
+            </tr>
+        </thead>
+        {% for result in results %}
+            <tr>
+                <td class="result-row pick-content">{{result.player_pick}}</td> 
+                <td class="result-row">
+                    {% if result.result == "win" %}
+                        <div class="win-result-content">{{result.result}}</div>
+                    {% elif result.result == "loss" %}
+                        <div class="loss-result-content">{{result.result}}</div>
+                    {% elif result.result == "ahead" %}
+                        <div class="ahead-result-content">{{result.result}}</div>
+                    {% elif result.result == "behind" %}
+                        <div class="behind-result-content">{{result.result}}</div>
+                    {% else %}
+                        <div class="result-content">{{result.result}}</div>
+                    {% endif %}
+                </td>
+                <td class="result-row">
+                    <table>
+                        <tr>
+                            <td class="team-content">{{result.team1}}</td>
+                            <td class="score-content">{{result.team1_score}}</td>
+                            <td class="{{result.top_id}}">{{result.top_status}}</td>
+                        </tr>
+                        <tr>
+                            <td class="team-content">{{result.team2}}</td>
+                            <td class="score-content">{{result.team2_score}}</td>
+                            <td class="{{result.bottom_id}}">{{result.bottom_status}}</td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="result-row">
+                    <table>
+                        <tr>
+                            <td class="spread-label">Favored</td>
+                            <td class="spread-team">{{result.favored}}</td>
+                            <td class="spread-value">{{result.favored_spread}}</td>
+                        </tr>
+                        <tr>
+                            {% if result.game_state == FINAL %}
+                                <td class="spread-label">Result</td>
+                                <td class="spread-team">{{result.winning_team}}</td>
+                                <td class="spread-value">{{result.game_spread}}.0</td>
+                            {% elif result.game_state == IN_PROGRESS %}
+                                <td class="spread-label">Ahead</td>
+                                <td class="spread-team">{{result.winning_team}}</td>
+                                <td class="spread-value">{{result.game_spread}}.0</td>
+                            {% else %}
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            {% endif %}
+                        </tr>
+                    </table> 
+                </td>
+            </tr>
+            <tr><td class="table-line" colspan="4"></td></tr>
+        {% endfor %}
+        <tr><td colspan="4" style="text-align:center;">
+                <span class="predicted-score-label">Predicted Game 10 Score</span>&nbsp;&nbsp;
+                <span class="predicted-team">{{summary.game10_team1}}</span>&nbsp;
+                <span class="predicted-score">{{summary.game10_predicted_team1_score}}</span>&nbsp;&nbsp;&nbsp;
+                <span class="predicted-team">{{summary.game10_team2}}</span>&nbsp;
+                <span class="predicted-score">{{summary.game10_predicted_team2_score}}</span>
+            </td>
+        </tr>
+        <tr><td class="table-line" colspan="4"></td></tr>
+    </table>
+    <br><br>
+
+{% endblock %}

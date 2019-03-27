@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block body_block %}
+<p id="home_p">This is the main landing page for the pool. You must be
+a registered user to participate.</p>
+<ul>
+    <li>To register, click on the Register button and provide the requested information:</li>
+        <ol>
+            <li>Username, must be unique for the site.</li>
+            <li>Email, you will need to click on a link that we send you to verify your registration.</li>
+            <li>Password, DO NOT USE THE SAME PASSWORD FROM ANOTHER SITE!</li>
+        </ol>
+    <li>To login, click on the Login button and login using your credentials.</li>
+    <li>If you have questions, contact the site admin at <a href="mailto:collegefootballpick10@gmail.com">collegefootballpick10@gmail.com</a></li>
+</ul>
+<img src="{% static 'images/cf_map.jpg' %}" alt="Logo Map" height="452" width="560">
+{% endblock %}
+

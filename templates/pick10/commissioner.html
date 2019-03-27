@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+<h1 id="commissioner_h1">COMMISSIONER page!</h1>
+<h2>Hello, {{ user.username }}, what would you like to do?</h2><br />
+<ul>
+    <li><a href="{% url 'create_week'%}">Create Week</a></li>
+    <li><a href="{% url 'edit_week_sel' %}">Edit Week</a></li>
+    <li><a href="{% url 'update_pages' year_num week_num %}">Update Cache (Week {{week_num}})</a></li>
+    {% if week_num_no_winner > 0 %}
+    <li><a href="{% url 'set_week_winner' year_num week_num_no_winner %}">Set Week Winner for week {{week_num}}</a></li>
+    {% else %}
+        <li>Set Week Winner (disabled)</a></li>
+    {% endif %}
+</ul>
+{% endblock %}

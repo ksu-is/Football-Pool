@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+
+{% block header_text %}Week {{week_number}} Picks{% endblock %}
+
+{% block side_block %}
+    {% include "pick10/year_sidebar.html" %}
+    {% endblock %}
+
+{% block body_header_block %}
+<div id="page-title">{{player_name}} Week {{week_number}} Picks<p>Deadline: {{pick_deadline}}</p></div>
+    {% include "pick10/week_navbar.html" %}
+    <br>
+{% endblock %}
+
+{% block body_block %}
+<link href="/static/title_bar.css" rel="stylesheet" type="text/css" media="all">
+<link href="/static/enter_picks.css" rel="stylesheet" type="text/css" media="all">
+
+<form action="picks" method="post">
+    {% csrf_token %}
+
+    {% if overall_error_message %}
+        <div class="pick-error" style="text-align:center;">{{overall_error_message}}</div>
+        <br>
+        {% endif %}
+    
+    <div>
+        <button class="btn btn-danger" type="button" onclick="random_picks()">Random Picks</button>
+    </div><br>
+
+    <div class="col-md-4">
+        {% for pick in picks %}
+
+        {% if pick.error_message %}
+            <div class="pick-error" id="pick_{{pick.number}}_error"><strong>ERROR!</strong>&nbsp;&nbsp;{{pick.error_message}}</div>
+        {% else %}
+            <div class="" id="pick_{{pick.number}}_error"></div>
+        {% endif %}
+
+        <input type="hidden" name="timestamp_{{pick.number}}" value={{pick.timestamp}}>
+
+        {% if pick.number == 10 %}
+            <table class="table table-hover table-striped">
+                <thead>
+                    <td class="game-number">Game {{pick.number}}: {{pick.kickoff}}</td>
+                    <td class="header-light">spread</td>
+                    <td class="header-light">score</td>
+                </thead>
+                <tr class="{{pick.team1_row_class}}" id="team1_row_{{pick.number}}">
+                    <td><label class="team-width" id="team-name">{{pick.team1}}</label></td>
+                    <td id="spread">{{pick.team1_spread}}</td>
+                    <td><input type="text" size="3" name="team1-score" value="{{pick.team1_predicted_points}}"></input></td>
+                    <td></td>
+                </tr>
+                <tr class="{{pick.team2_row_class}}" id="team2_row_{{pick.number}}">
+                    <td><label class="team-width" id="team-name">{{pick.team2}}</label></td>
+                    <td id="spread">{{pick.team2_spread}}</td>
+                    <td><input type="text" size="3" name="team2-score" value="{{pick.team2_predicted_points}}"></input></td>
+                    <td>
+                        <button class="btn btn-danger" type="button" onclick="random_game10_score()">Random Score</button>
+                    </td>
+                </tr>
+            </table>
+        {% else %}
+            <table class="table table-hover table-striped">
+                <thead>
+                    <td class="game-number">Game {{pick.number}}: {{pick.kickoff}}</td>
+                    <td class="header-light">spread</td>
+                </thead>
+                <tr class="{{pick.team1_row_class}}" id="team1_row_{{pick.number}}">
+                    <td><label class="radio-inline team-width">
+                        <input type="radio" name="pick_{{pick.number}}" value="team1" onclick="highlightTeam1({{pick.number}})" {{pick.team1_checked}}>
+                        <span id="team-name">{{pick.team1}}</span></label>
+                    </td>
+                    <td id="spread">{{pick.team1_spread}}</td>
+                </tr>
+                <tr class="{{pick.team2_row_class}}" id="team2_row_{{pick.number}}">
+                    <td><label class="radio-inline team-width">
+                        <input type="radio" name="pick_{{pick.number}}" value="team2" onclick="highlightTeam2({{pick.number}})" {{pick.team2_checked}}>
+                        <span id="team-name">{{pick.team2}}</span></label>
+                    </td>
+                    <td id="spread">{{pick.team2_spread}}</td>
+                </tr>
+            </table>
+        {% endif %}
+    <br>
+{% endfor %}
+<div>
+    <button class="btn btn-success" type="submit" name="submit_form" value="Submit">Submit Picks</button>
+    &nbsp;&nbsp;
+    <button class="btn" type="submit" name="cancel_form" value="Cancel">Cancel</button>
+    <br><br>
+</div>
+</div>
+</form>
+
+{% endblock %}
+
+{% block script_block %}
+    <script>
+        function highlightTeam1(pick_number) {
+            $("#team1_row_" + pick_number).addClass("info");
+            $("#team2_row_" + pick_number).removeClass("info");
+        }
+        function highlightTeam2(pick_number) {
+            $("#team1_row_" + pick_number).removeClass("info");
+            $("#team2_row_" + pick_number).addClass("info");
+        }
+        function is_score_valid(score_str) {
+           return /^[0-9]+$/.test(score_str);
+        }
+        function update_game10_winner() {
+            var team1_score_str = $('[name=team1-score]').val();
+            var team2_score_str = $('[name=team2-score]').val();
+
+            var team1_score_invalid = is_score_valid(team1_score_str) == false;
+            var team2_score_invalid = is_score_valid(team2_score_str) == false;
+            var both_invalid = team1_score_invalid && team2_score_invalid;
+
+            if (both_invalid) {
+                $("#team1_row_10").removeClass("info");
+                $("#team2_row_10").removeClass("info");
+                $("#pick_10_error").text("ERROR! Team scores are invalid")
+                $("#pick_10_error").addClass("pick-error")
+                return;
+            }
+
+            if (team1_score_invalid) {
+                $("#team1_row_10").removeClass("info");
+                $("#team2_row_10").removeClass("info");
+                $("#pick_10_error").text("ERROR! Team1 score is invalid")
+                $("#pick_10_error").addClass("pick-error")
+                return;
+            }
+
+            if (team2_score_invalid) {
+                $("#team1_row_10").removeClass("info");
+                $("#team2_row_10").removeClass("info");
+                $("#pick_10_error").text("ERROR! Team2 score is invalid")
+                $("#pick_10_error").addClass("pick-error")
+                return;
+            }
+
+            $("#pick_10_error").text("")
+            $("#pick_10_error").removeClass("pick-error")
+
+            var team1_score = parseInt(team1_score_str);
+            var team2_score = parseInt(team2_score_str);
+
+            // calculate winner
+            var winner = 1;
+            var spread = {{game10_spread}};
+            var favored = {{game10_favored}};
+
+            if ((favored == 1 && (team1_score - team2_score) < spread) || 
+               (favored == 2 && (team2_score - team1_score) > spread)) {
+                winner = 2;
+            }
+
+            //highlight winner
+            if (winner == 1) {
+                highlightTeam1(10);
+            } else {
+                highlightTeam2(10);
+            }
+        }
+        $('[name=team1-score]').keyup(function() {
+            update_game10_winner();
+        });
+        $('[name=team2-score]').keyup(function() {
+            update_game10_winner();
+        });
+        function random_game10_score() {
+            var game10_team1_score = Math.floor(Math.random()*75);
+            var game10_team2_score = Math.floor(Math.random()*75);
+            $("[name=team1-score]").val(""+game10_team1_score);
+            $("[name=team2-score]").val(""+game10_team2_score);
+            update_game10_winner();
+        }
+        function random_picks() {
+            for (var game_number=1; game_number < 10; game_number++) {
+                var pick = Math.floor(Math.random()*2)+1;
+                var radio_name = "[name=pick_" + game_number + "]";
+
+                if (pick == 1) {
+                    $(radio_name + "[value=team1]").prop("checked",true);
+                } else {
+                    $(radio_name + "[value=team2]").prop("checked",true);
+                }
+            }
+            random_game10_score();
+        }
+    </script>
+{% endblock %}

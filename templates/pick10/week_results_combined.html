@@ -1,0 +1,67 @@
+{% if week_state == 'not_started' %}
+    <table><tr><td id="not-started-week-state">week has not started</td></tr></table>
+{% elif week_state == 'in_progress' %}
+    <table><tr><td id="in-progress-week-state">week is in progress</td></tr></table>
+{% elif week_state == 'final' %}
+    <table><tr><td id="final-week-state">final results</td></tr></table>
+{% endif %}
+{% if week_state == 'in_progress' or week_state == 'final' %}
+    <table>
+        <tr>
+            <td class="p_content">Points={{week_stats.points}}</td>
+            <td class="p_content">Population={{week_stats.scores|length}}</td>
+            <td class="p_content">Mean={{week_stats.mean|floatformat}}</td>
+            <td class="p_content">Median={{week_stats.median}}</td>
+            <td class="p_content">Mode={{week_stats.mode}}</td>
+            <td class="p_content">Over/Under={{week_stats.over_under}}</td>
+        </tr>
+    </table>
+{% endif %}
+    <table id="week_results_table" class="tablesorter">
+        <thead class="results-header">
+            <tr id="results_row">
+                <th id="header_rank" class="th_header"><span><a class="link-header btn btn-default btn-xs active" href="#" role="button">Rank</a></span></th>
+                <th id="header_player" class="th_header"><span><a class="link-header btn btn-default btn-xs active" href="#" role="button">Player</a></span></th>
+                <th id="header_wins" class="th_header sortInitialOrder-desc"><span><a class="link-header btn btn-default btn-xs active" href="#" role="button">Wins</a></span></th>
+                <th id="header_losses" class="th_header"><span><a class="link-header btn btn-default btn-xs active" href="#" role="button">Losses</a></span></th>
+                <th id="header_winpct" class="th_header sortInitialOrder-desc"><span><a class="link-header btn btn-default btn-xs active" href="#" role="button">Win Pct.</a></span></th>
+                {% if week_state == 'in_progress' %}
+                <th id="header_projected" class="th_header sortInitialOrder-desc"><span><a class="link-header btn btn-default btn-xs active" href="#" role="button">Projected</a></span></th>
+                {% endif %}
+                {% if week_state == 'not_started' or week_state == 'in_progress' %}
+                <th id="header_possible" class="th_header sortInitialOrder-desc"><span><a class="link-header btn btn-default btn-xs active" href="#" role="button">Possible</a></span></th>
+                {% endif %}
+                {% if week_state == 'in_progress' or week_state == 'final' %} 
+                <th id="header_winner" class="th_header sortInitialOrder-desc"><span><a class="link-header btn btn-default btn-xs active" href="#" role="button">Winner</a></span></th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in results %}
+            <tr id="player_{{result.player_id}}">
+                {% if week_state == 'in_progress' and use_projected_rank %}
+                <td id="p_rank_{{result.player_id}}" class="p_content">{{result.projected_rank}}</td>
+                {% else %}
+                <td id="p_rank_{{result.player_id}}" class="p_content">{{result.rank}}</td>
+                {% endif %}
+                <td id="p_player_{{result.player_id}}" class="player-content"><a class="player-link" href="player/{{result.player_id}}/results">{{result.player_name}}</a></td>
+                <td id="p_wins_{{result.player_id}}" class="highlight-content">{{result.wins}}</td>
+                <td id="p_losses_{{result.player_id}}" class="p_content">{{result.losses}}</td>
+                <td id="p_winpct_{{result.player_id}}" class="p_content">{{result.win_pct}}</td>
+                {% if week_state == 'in_progress' %}
+                <td id="p_projected_{{result.player_id}}" class="p_content">{{result.projected_wins}}</td>
+                {% endif %}
+                {% if week_state == 'not_started' or week_state == 'in_progress' %}
+                <td id="p_possible_{{result.player_id}}" class="p_content">{{result.possible_wins}}</td>
+                {% endif %}
+                {% if week_state == 'in_progress' or week_state == 'final' %}
+                    {% if winner.num_tied_for_first == 1 %}
+                <td id="p_winner_{{result.player_id}}" class="winner">{{result.winner}}</td>
+                    {% else %}
+                <td id="p_winner_{{result.player_id}}" class="winner"><a class="winner-link" href="tiebreak">{{result.winner}}</a></td>
+                    {% endif %}
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
