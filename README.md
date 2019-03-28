@@ -10,16 +10,25 @@ ___
 The idea is to create a user-friendly app that will host my family's NFL pool. 
 >The aim is to help **_The Commissioner_** save time by not having to manually enter and calculate everything herself. : automate as much as I can to make playing in the *Bowl* a lot more fun
 
-* It will pull the NFL season schedule
-* It will let user pick weekly game winner
+* Will pull the NFL season schedule
+* Lets user seclect their weekly game picks
 * Option to input "by how many points" game will be won
-* Automatically calculate points for won/lost game picks
-* Be able to determine is entry is valid/invalid based on time of entry
-* Will track individual, weekly, season, and historical results.
-* 
+* Automatically calculate and track points earned
+* Determines if entry is valid/invalid, based on time of entry
+* Will track individual, weekly, season, and historical results
+* Will be able to set-up notification alerts
+* Will have option for *The Commisioner* to add penalty deductions at the discretion of *The Commisioner*
+* Will calculate points allotted for Payoffs and Superbowl
+* Will include a section for Rule Book
+* Will include section for Teams
+* WIll include section for Rule proposals up for review
+* Will give *Commisioner* ability to blast alert/message to all members (perhaps)
+* Will notify user when entry is invalid
+* Will provide have user-friendly master account for *Commsioner* to review and makes changes/override if needed 
 
-### Who will use: 
-Participants of the *Chico-Shiva Bowl*
+
+#### Who will use: 
+Participants of the _**Chico-Shiva Bowl**_
 
 
 ![alt text](/images/ch.jpg "Calvin and Hobbes")
@@ -27,6 +36,7 @@ ___
 
 
 ### Task List
+___
 
 - [x] Set up README
 - [x] Setup task list with check boxes
@@ -37,7 +47,6 @@ ___
 - [x] Make sure team members have access to repository
 
 - [ ] Evaluate related repository
-- [ ]
 - [ ] Test repository & get it running
 - [ ] Document how to work [x] repository 
 - [ ] Document issues encounted
@@ -50,11 +59,11 @@ ___
 - [ ] Evaluate related repositoriies [2]
 - [ ] Evaluate related repositoriies [3]
 - [ ] Evaluate related repositoriies [4]
-- [ ] Evaluate related repositoriies [4]
-- [ ] 
-- [ ] 
-- [ ]  
-- [ ]
+- [ ] Evaluate related repositoriies [5]
+- [ ] ...
+- [ ] ...
+- [ ] ...
+- [ ] ...
 
 #### M.Syed
 
@@ -62,12 +71,13 @@ ___
 - [ ] Evaluate related repositoriies [2]
 - [ ] Evaluate related repositoriies [3]
 - [ ] Evaluate related repositoriies [4]
-- [ ] Evaluate related repositoriies [4]
-- [] 
-- [] 
-- [whw]  
-- [] 
-___
+- [ ] Evaluate related repositoriies [5]
+- [ ] ...
+- [ ] ...
+- [ ] ...
+- [ ] ...
+
+
 ___
 ___
 
