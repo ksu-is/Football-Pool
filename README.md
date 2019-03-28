@@ -38,7 +38,13 @@ ___
 ### Task List
 ___
 
-- [ ] Evaluate 
+- [ ] Set up README 
+- [ ] Setup task list with check boxes
+- [ ] Find related repository 
+- [x] Clone repository into team 
+- [ ] Ensure repository is public 
+- [ ] Assign an open source license 
+- [ ] Make sure team members have access to repository 
 - [x] Set up README
 - [x] Setup task list with check boxes
 - [x] Find related repository
