@@ -38,13 +38,6 @@ ___
 ### Task List
 ___
 
-- [ ] Set up README 
-- [ ] Setup task list with check boxes
-- [ ] Find related repository 
-- [x] Clone repository into team 
-- [ ] Ensure repository is public 
-- [ ] Assign an open source license 
-- [ ] Make sure team members have access to repository 
 - [x] Set up README
 - [x] Setup task list with check boxes
 - [x] Find related repository
@@ -55,7 +48,7 @@ ___
 
 - [ ] Evaluate related repository
 - [ ] Test repository & get it running
-- [ ] Document how to work [x] repository 
+- [ ] Document how to work [xx] repository 
 - [ ] Document issues encounted
 
 
@@ -122,4 +115,4 @@ This is run using PHP: [phppickem][2] - - but I would like to see how I can crea
 [3]: https://github.com/Arsenalist/Simple-Football-Pool/blob/master/simplefootballpool.py
 [4]:https://github.com/ryandalex1/football_pool
 [5]: https://github.com/fiesta/football_pool
-[x]: x
+[xx]: x
