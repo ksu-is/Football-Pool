@@ -67,7 +67,7 @@ ___
 
 #### M.Syed
 
-- [ ] Evaluate related repositoriies [1]
+- [ x] Evaluate related repositoriies [1]
 - [ ] Evaluate related repositoriies [2]
 - [ ] Evaluate related repositoriies [3]
 - [ ] Evaluate related repositoriies [4]
